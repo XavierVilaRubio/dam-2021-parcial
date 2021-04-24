@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -91,7 +92,7 @@ public class GameBeginDialog extends DialogFragment {
                 Log.d(TAG, "Nom invalid");
             }
             int aposta = Integer.parseInt(value.split(";")[1]);
-            if(aposta > 5 && aposta < 1000){
+            if(aposta >= 5 && aposta <= 1000){
                 apostes.add(i,aposta);
             }else{
                 editText.setError("Aposta invalida");
@@ -127,6 +128,7 @@ public class GameBeginDialog extends DialogFragment {
                         EditText nomET = new EditText(rootView.getContext());
                         nomET.setHint(R.string.player_hint);
                         nomET.setId(20000+i);
+                        nomET.setSingleLine(true);
                         gameSettingLayout.addView(nomET);
                     }
                 }

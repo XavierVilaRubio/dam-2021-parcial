@@ -2,13 +2,17 @@ package cat.udl.tidic.amd.a7mig;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cat.udl.tidic.amd.a7mig.databinding.ActivityMainBinding;
+import cat.udl.tidic.amd.a7mig.models.Jugador;
 import cat.udl.tidic.amd.a7mig.viewmodel.GameActivityViewModel;
 
 
@@ -27,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
         activityMainBinding.setLifecycleOwner(this);
         activityMainBinding.setViewModel(gameActivityViewModel);
         initView();
+        gameActivityViewModel.Imatge.observe(this, integer -> ((ImageView) findViewById(R.id.UltimaCarta)).setImageResource(integer));
     }
 
     public void initView(){
@@ -39,9 +44,8 @@ public class GameActivity extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), GAME_BEGIN_DIALOG_TAG);
     }
 
-    public void finalPartida(){
-        GameEndDialog dialog = GameEndDialog.newInstance(this,
-                new ArrayList<>());
+    public void finalPartida(List<Jugador> jugadors){
+        GameEndDialog dialog = GameEndDialog.newInstance(this, jugadors);
         dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), GAME_END_DIALOG_TAG);
     }
@@ -49,8 +53,5 @@ public class GameActivity extends AppCompatActivity {
     public void saveLists(List<String> noms, List<Integer> apostes){
         gameActivityViewModel.saveLists(noms, apostes);
     }
-
-
-
 
 }

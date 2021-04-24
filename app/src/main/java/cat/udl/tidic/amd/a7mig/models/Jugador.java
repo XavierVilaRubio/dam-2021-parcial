@@ -15,32 +15,24 @@ public class Jugador {
         this.puntuacion = 0.0;
     }
 
-    public double getPuntuacion() {
-        return puntuacion;
-    }
-
-    public String getPuntuacionStr() {
-        return Double.toString(puntuacion);
+    public String getNombre() {
+        return nombre;
     }
 
     public void setPuntuacion(double puntuacion) {
         this.puntuacion = puntuacion;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public int getApuesta() {
-        return apuesta;
+    public double getPuntuacion() {
+        return puntuacion;
     }
 
     public void setApuesta(int apuesta) {
         this.apuesta = apuesta;
     }
 
-    public String getApuestaStr() {
-        return Integer.toString(apuesta);
+    public int getApuesta() {
+        return apuesta;
     }
 
     @NonNull

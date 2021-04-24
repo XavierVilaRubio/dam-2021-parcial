@@ -16,7 +16,7 @@ public class Baraja {
         index=0;
     }
     
-    private  void crear(){
+    private void crear(){
         for (int i=1; i<=12; i++){
             if(i!=8 && i!=9) {
                 for (Palos palo : Palos.values()) {

@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@={viewModel.Aposta}"
+        android:text="@{viewModel.Aposta}"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.931"
@@ -45,13 +45,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.195"
-        app:srcCompat="@drawable/bastos1" />
+        app:imageResource="@{viewModel.Imatge}" />
 
     <TextView
         android:id="@+id/textViewPuntuacio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@={viewModel.Puntuacio}"
+        android:text="@{viewModel.Puntuacio}"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPuntuacio"
-        android:onClick="@{ () -> viewModel.plantarse() }"/>
+        android:onClick="@{ () -> viewModel.onPlantarse() }"/>
 
     <Button
         android:id="@+id/seguirButton"
@@ -80,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
         app:layout_constraintVertical_bias="0.0"
-        android:onClick="@{ () -> viewModel.seguir() }"/>
+        android:onClick="@{ () -> viewModel.onSeguir() }"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

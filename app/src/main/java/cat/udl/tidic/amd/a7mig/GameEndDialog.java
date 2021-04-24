@@ -58,9 +58,9 @@ public class GameEndDialog extends DialogFragment {
 
         for (int i=0; i<jugadors.size(); i++){
             Jugador j = jugadors.get(i);
-            TextView resum = new EditText(rootView.getContext());
-            resum.setText(j.toString());
-            gameEndLayout.addView(resum);
+            TextView resumJugadors = new TextView(rootView.getContext());
+            resumJugadors.setText(j.toString());
+            gameEndLayout.addView(resumJugadors);
         }
 
         TextView resum = new EditText(rootView.getContext());
