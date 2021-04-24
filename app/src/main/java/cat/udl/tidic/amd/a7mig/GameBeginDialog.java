@@ -77,18 +77,35 @@ public class GameBeginDialog extends DialogFragment {
     private void onDoneClicked() {
         List<String> noms = new ArrayList<>();
         List<Integer> apostes = new ArrayList<>();
+        boolean valid = true;
 
         for (int i = 0; i < jugadores; i++) {
             EditText editText = gameSettingLayout.findViewById(20000+i);
             String value = editText.getText().toString();
             String nom = value.split(";")[0];
+            if(nom.matches("^([a-z]{3,7})$")){
+                noms.add(i,nom);
+            }else{
+                editText.setError("Nom invalid");
+                valid = false;
+                Log.d(TAG, "Nom invalid");
+            }
             int aposta = Integer.parseInt(value.split(";")[1]);
-            noms.add(i,nom);
-            apostes.add(i,aposta);
+            if(aposta > 5 && aposta < 1000){
+                apostes.add(i,aposta);
+            }else{
+                editText.setError("Aposta invalida");
+                valid = false;
+                Log.d(TAG, "Aposta invalida");
+            }
             Log.d(TAG, "noms:"+ noms.toString());
             Log.d(TAG, "apostes:"+ apostes.toString());
         }
-        dismiss();
+        if(valid){
+            Log.d(TAG, "llistes guardades");
+            activity.saveLists(noms, apostes);
+            dismiss();
+        }
     }
 
 

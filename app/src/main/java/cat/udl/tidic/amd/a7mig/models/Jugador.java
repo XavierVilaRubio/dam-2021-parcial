@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 
 
 public class Jugador {
-
-        private final String nombre;
-        private final int apuesta;
-        private double puntuacion;
+    
+    private final String nombre;
+    private int apuesta;
+    private double puntuacion;
 
     public Jugador(String nombre, Integer apuesta) {
         this.nombre = nombre;
@@ -17,6 +17,10 @@ public class Jugador {
 
     public double getPuntuacion() {
         return puntuacion;
+    }
+
+    public String getPuntuacionStr() {
+        return Double.toString(puntuacion);
     }
 
     public void setPuntuacion(double puntuacion) {
@@ -29,6 +33,14 @@ public class Jugador {
 
     public int getApuesta() {
         return apuesta;
+    }
+
+    public void setApuesta(int apuesta) {
+        this.apuesta = apuesta;
+    }
+
+    public String getApuestaStr() {
+        return Integer.toString(apuesta);
     }
 
     @NonNull

@@ -7,8 +7,6 @@ public class Partida {
     private List<Jugador> jugadores;
     private Baraja baraja;
 
-
-
     public Partida(){
         this.baraja = new Baraja();
         baraja.barajar();
