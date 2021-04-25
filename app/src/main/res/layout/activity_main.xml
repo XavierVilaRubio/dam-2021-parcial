@@ -80,7 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
         app:layout_constraintVertical_bias="0.0"
-        android:onClick="@{ () -> viewModel.onSeguir() }"/>
+        android:onClick="@{ () -> viewModel.onSeguir() }"
+        android:enabled="@{!viewModel.Lose}"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

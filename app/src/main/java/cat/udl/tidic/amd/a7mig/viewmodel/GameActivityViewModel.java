@@ -22,6 +22,7 @@ public class GameActivityViewModel extends ViewModel {
     public MutableLiveData<String> Aposta;
     public MutableLiveData<String> Puntuacio;
     public MutableLiveData<Integer> Imatge;
+    public MutableLiveData<Boolean> Lose;
     public Carta currentCarta;
     private final List<Jugador> jugadors = new ArrayList<>();
     private int i;
@@ -33,6 +34,7 @@ public class GameActivityViewModel extends ViewModel {
         Aposta = new MutableLiveData<>();
         Puntuacio = new MutableLiveData<>();
         Imatge = new MutableLiveData<>();
+        Lose = new MutableLiveData<>(false);
         i = 0;
         partida = new Partida();
         this.gameActivity = gameActivity;
@@ -53,13 +55,14 @@ public class GameActivityViewModel extends ViewModel {
     }
 
     public void onPlantarse(){
+        Lose.setValue(false);
         nextPlayer();
     }
 
     public void onSeguir() {
         treureCarta();
         if(jugadors.get(i).getPuntuacion() > 7.5) {
-            nextPlayer();
+            Lose.setValue(true);
         }
     }
 
