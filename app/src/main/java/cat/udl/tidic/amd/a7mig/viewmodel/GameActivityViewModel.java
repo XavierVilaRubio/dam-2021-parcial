@@ -1,8 +1,5 @@
 package cat.udl.tidic.amd.a7mig.viewmodel;
 
-import android.widget.ImageView;
-
-import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -18,85 +15,67 @@ import cat.udl.tidic.amd.a7mig.preferences.PreferenceProvider;
 public class GameActivityViewModel extends ViewModel {
 
     private static final String TAG = "GameActivityViewModel";
-    public MutableLiveData<String> Nom;
-    public MutableLiveData<String> Aposta;
-    public MutableLiveData<String> Puntuacio;
     public MutableLiveData<Integer> Imatge;
     public MutableLiveData<Boolean> Lose;
     public Carta currentCarta;
-    private final List<Jugador> jugadors = new ArrayList<>();
-    private int i;
-    private final Partida partida;
+    public MutableLiveData<Integer> i;
+    public MutableLiveData<Partida> partida;
     private GameActivity gameActivity;
 
     public GameActivityViewModel(GameActivity gameActivity) {
-        Nom = new MutableLiveData<>();
-        Aposta = new MutableLiveData<>();
-        Puntuacio = new MutableLiveData<>();
-        Imatge = new MutableLiveData<>();
-        Lose = new MutableLiveData<>(false);
-        i = 0;
-        partida = new Partida();
+        this.Imatge = new MutableLiveData<>();
+        this.Lose = new MutableLiveData<>(false);
+        this.i = new MutableLiveData<>();
+        this.partida = new MutableLiveData<>(new Partida());
         this.gameActivity = gameActivity;
     }
 
-    public void saveLists(List<String> noms, List<Integer> apostes){
-        for(int j = 0; j < noms.size(); j++) {
-            jugadors.add(new Jugador(noms.get(j), apostes.get(j)));
-            jugadors.get(j).setPuntuacion(0.0);
+    public void saveLists(List <String> noms, List <Integer> aposta) {
+        List <Jugador> jugadores = new ArrayList<>();
+        for (int a = 0; a < noms.size(); a++) {
+            jugadores.add(new Jugador(noms.get(a), aposta.get(a)));
         }
+        this.partida.getValue().setJugadores(jugadores);
+        i.setValue(0);
         treureCarta();
     }
 
     public void treureCarta(){
-        currentCarta = partida.cogerCarta();
-        jugadors.get(i).setPuntuacion(jugadors.get(i).getPuntuacion()+currentCarta.getValue());
-        update();
+        currentCarta = partida.getValue().cogerCarta();
+        partida.getValue().getJugadores().get(i.getValue()).setPuntuacion(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue()+currentCarta.getValue());
+        Imatge.setValue(currentCarta.getResource());
     }
 
     public void onPlantarse(){
         Lose.setValue(false);
-        nextPlayer();
+        if(i.getValue() == partida.getValue().getJugadores().size()-1){
+            puntuacioFinal();
+        }else {
+            i.setValue(i.getValue()+1);
+        }
+        treureCarta();
     }
 
     public void onSeguir() {
         treureCarta();
-        if(jugadors.get(i).getPuntuacion() > 7.5) {
+        if(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue() > 7.5) {
             Lose.setValue(true);
         }
     }
 
-    private void nextPlayer() {
-        if(i == jugadors.size()-1){
-            puntuacioFinal();
-        }else {
-            i++;
-        }
-        treureCarta();
-    }
-
-    public void update(){
-        Nom.setValue(jugadors.get(i).getNombre());
-        Aposta.setValue(Integer.toString(jugadors.get(i).getApuesta()));
-        Puntuacio.setValue(Double.toString(jugadors.get(i).getPuntuacion()));
-        Imatge.setValue(currentCarta.getResource());
-    }
-
     public void puntuacioFinal() {
-        for(int a = 0; a < jugadors.size(); a++) {
-            if(jugadors.get(i).getPuntuacion() < 7.5) {
-                jugadors.get(i).setApuesta((int) Math.round(jugadors.get(i).getPuntuacion() * 0.9));
-            } else if(jugadors.get(i).getPuntuacion() > 7.5) {
-                int banca = PreferenceProvider.providePreferences().getInt("banca", -1);
-                PreferenceProvider.providePreferences().edit().putInt("banca", banca+jugadors.get(i).getApuesta()).apply();
-            } else if(jugadors.get(i).getPuntuacion() == 7.5) {
-                int val = jugadors.get(i).getApuesta()*2;
-                jugadors.get(i).setApuesta((int) (jugadors.get(i).getPuntuacion() + (jugadors.get(i).getApuesta()*2)));
-                int banca = PreferenceProvider.providePreferences().getInt("banca", -1);
+        for(int a = 0; a < partida.getValue().getJugadores().size(); a++) {
+            int banca = PreferenceProvider.providePreferences().getInt("banca", -1);
+            if(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue() < 7.5) {
+                PreferenceProvider.providePreferences().edit().putInt("banca", (int) (banca+(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue() * 0.9))).apply();
+            } else if(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue() > 7.5) {
+                PreferenceProvider.providePreferences().edit().putInt("banca", banca+partida.getValue().getJugadores().get(i.getValue()).getApuesta().getValue()).apply();
+            } else if(partida.getValue().getJugadores().get(i.getValue()).getPuntuacion().getValue() == 7.5) {
+                int val = partida.getValue().getJugadores().get(i.getValue()).getApuesta().getValue()*2;
                 PreferenceProvider.providePreferences().edit().putInt("banca", banca-val).apply();
             }
         }
-        gameActivity.finalPartida(jugadors);
+        gameActivity.finalPartida(partida.getValue().getJugadores());
     }
 
 }

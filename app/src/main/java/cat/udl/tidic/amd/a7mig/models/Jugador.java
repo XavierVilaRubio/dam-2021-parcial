@@ -1,49 +1,48 @@
 package cat.udl.tidic.amd.a7mig.models;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 
 public class Jugador {
     
-    private final String nombre;
-    private int apuesta;
-    private double puntuacion;
+    private final MutableLiveData<String> nombre;
+    private final MutableLiveData<Integer> apuesta;
+    private MutableLiveData<Double> puntuacion;
 
     public Jugador(String nombre, Integer apuesta) {
-        this.nombre = nombre;
-        this.apuesta = apuesta;
-        this.puntuacion = 0.0;
+        this.nombre = new MutableLiveData<>(nombre);
+        this.apuesta = new MutableLiveData<>(apuesta);
+        this.puntuacion = new MutableLiveData<>(1.0);
     }
 
-    public String getNombre() {
+    public MutableLiveData<String> getNombre() {
         return nombre;
     }
 
     public void setPuntuacion(double puntuacion) {
-        this.puntuacion = puntuacion;
+        this.puntuacion = new MutableLiveData<>(puntuacion);
     }
 
-    public double getPuntuacion() {
+    public MutableLiveData<Double> getPuntuacion() {
         return puntuacion;
     }
 
-    public void setApuesta(int apuesta) {
-        this.apuesta = apuesta;
-    }
-
-    public int getApuesta() {
+    public MutableLiveData<Integer> getApuesta() {
         return apuesta;
     }
 
     @NonNull
     @Override
     public String toString(){
-        if (this.puntuacion == 7.5){
-            return this.nombre + " ha guanyat " + this.getApuesta()*2 + " euros amb una puntuació de " + this.getPuntuacion();
-        } else if (this.puntuacion < 7.5){
-            return this.nombre + " ha perdut " + this.getApuesta()*0.1 + " euros amb una puntuació de " + this.getPuntuacion();
+        if (this.puntuacion.getValue() == 7.5){
+            return this.nombre.getValue() + " ha guanyat " + this.getApuesta().getValue()*2 + " euros amb una puntuació de " + this.getPuntuacion();
+        } else if (this.puntuacion.getValue() < 7.5){
+            return this.nombre.getValue() + " ha perdut " + this.getApuesta().getValue()*0.1 + " euros amb una puntuació de " + this.getPuntuacion();
         } else {
-            return this.nombre + " ha perdut " + this.getApuesta() + " euros amb una puntuació de " + this.getPuntuacion();
+            return this.nombre.getValue() + " ha perdut " + this.getApuesta().getValue() + " euros amb una puntuació de " + this.getPuntuacion();
         }
     }
 

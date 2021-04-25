@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -104,7 +103,7 @@ public class GameBeginDialog extends DialogFragment {
         }
         if(valid){
             Log.d(TAG, "llistes guardades");
-            activity.saveLists(noms, apostes);
+            activity.gameActivityViewModel.saveLists(noms, apostes);
             dismiss();
         }
     }

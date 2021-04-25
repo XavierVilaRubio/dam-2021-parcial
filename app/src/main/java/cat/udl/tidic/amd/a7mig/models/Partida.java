@@ -4,7 +4,7 @@ import java.util.List;
 public class Partida {
 
     private static final String TAG = "Partida";
-    private List<Jugador> jugadores;
+    public List<Jugador> jugadores;
     private Baraja baraja;
 
     public Partida(){
